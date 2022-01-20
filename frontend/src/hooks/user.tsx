@@ -3,95 +3,46 @@ import React, {
   useCallback,
   useState,
   useContext,
-  useMemo,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import api from '../services/api';
-import randomColor from '../utils/randomColor';
 
 export interface IUserProps {
   id?: string;
   firstName: string;
   lastName: string;
-  participation: number;
-  color?: string;
-  angle?: number;
+  participation: number | null;
 }
 
 interface UserContextData {
   loading: boolean;
-  user: IUserProps;
+  deleteLoading: boolean;
   usersList: IUserProps[];
-  findOneUser(id: string): Promise<void>;
+  setUsersList: Dispatch<SetStateAction<IUserProps[]>>;
+  deleteUser(id?: string): Promise<void>;
   findAllUsers(): Promise<void>;
   createUser(payload: IUserProps): Promise<void>;
-  // updateUser(payload: IUserProps): Promise<void>;
 }
 
 const UserContext = createContext<UserContextData>({} as UserContextData);
 
 const UserProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const [usersList, setUsersList] = useState<IUserProps[]>([
-    // {
-    //   id: '1',
-    //   firstName: 'Joao',
-    //   lastName: 'Pedro',
-    //   participation: 20,
-    // },
-    // {
-    //   id: '2',
-    //   firstName: 'Carlos',
-    //   lastName: 'Cunha',
-    //   participation: 30,
-    // },
-    // {
-    //   id: '3',
-    //   firstName: 'Roberto',
-    //   lastName: 'Silva',
-    //   participation: 10,
-    // },
-    // {
-    //   id: '4',
-    //   firstName: 'Joao',
-    //   lastName: 'Pedro',
-    //   participation: 20,
-    // },
-    // {
-    //   id: '5',
-    //   firstName: 'Carlos',
-    //   lastName: 'Cunha',
-    //   participation: 2,
-    // },
-  ])
-  const [user, setUser] = useState<IUserProps>({
-    id: '',
-    firstName: '',
-    lastName: '',
-    participation: 0,
-  })
-  // const { user, clearNewUser, updateUser: updateAuthUser } = useAuth();
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [usersList, setUsersList] = useState<IUserProps[]>([]);
 
   const findAllUsers = useCallback(async () => {
     try {
       setLoading(true);
       const users = await api.get('/api/users')
-      await setUsersList(users.data.map((i: any) => { return ({...i, color: randomColor(), angle: (i.participation/100)*360})}));
-      setLoading(false);
+      setUsersList(users.data);
     } catch (error) {
-      console.log(error);
-    }
-  }, [])
-
-  const findOneUser = useCallback(async (id: string) => {
-    try {
-      setLoading(true);
-      const user = await api.get(`/api/user/${id}`)
-      setUser(user.data);
+        console.log(error);
+    } finally {
       setLoading(false);
-    } catch (error) {
-      console.log(error);
     }
-  }, [])
+  }, []);
 
   const createUser = useCallback(async (payload: IUserProps) => {
     try {
@@ -101,22 +52,33 @@ const UserProvider: React.FC = ({ children }) => {
         lastName: payload.lastName,
         participation: payload.participation
       })
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
+    }
+  }, []);
+
+  const deleteUser = useCallback(async (id?: string) => {
+    try {
+      setDeleteLoading(true);
+      await api.delete(`/api/user/${id}`);
+      setDeleteLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [])
+  }, []);
 
   return (
     <UserContext.Provider
       value={{
         loading,
         findAllUsers,
+        setUsersList,
         usersList,
-        user,
-        findOneUser,
         createUser,
-        // updateUser,
+        deleteLoading,
+        deleteUser,
       }}
     >
       {children}

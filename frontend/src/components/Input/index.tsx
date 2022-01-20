@@ -5,10 +5,10 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
 }
 
-export default function Input ({
+const Input: React.FC<InputProps> = ({
     label,
     ...props
-}: InputProps) {
+}) => {
     return (
         <SC.Input
             placeholder={label}
@@ -17,4 +17,4 @@ export default function Input ({
     );
 }
 
-// export default Input;
+export default Input;

@@ -9,18 +9,32 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
+    height: 40%;
     width: 100%;
-    padding: 3rem 24rem;
+    padding: 2rem 0rem;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     background-color: ${colors.blue};
+    gap: 1rem;
+`;
+
+export const Body = styled.div`
+    height: 60%;
+    width: 100%;
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 `;
 
 export const Title = styled.h1`
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold;
+    text-transform: uppercase;
     color: #394B50;
 `;
 
@@ -31,18 +45,26 @@ export const Text = styled.p`
 
 export const ContentContainer = styled.div`
     width: 100%;
-    padding: 3rem 24rem;
+    margin: 3rem 0 0;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 2rem;
+`;
+
+export const ErrorText = styled.p`
+    font-size: 1.5rem;
+    color: #394B50;
+    opacity: 0.5;
 `;
 
 export const Footer = styled.div`
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding: 0.25rem 0;
+    padding: 0.2rem 0;
     background-color: ${colors.dark_blue};
     display: flex;
     flex-direction: row;
@@ -52,6 +74,7 @@ export const Footer = styled.div`
 `;
 
 export const FooterText = styled.p`
+    margin: 0;
     color: #FFF;
 `;
 
@@ -64,6 +87,6 @@ export const FooterLinkText = styled.a`
 
     &:hover,
     &:focus {
-        color: #CC3363;
+        color: ${colors.pink};
     }
 `;

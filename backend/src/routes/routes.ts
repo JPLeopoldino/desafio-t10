@@ -1,24 +1,12 @@
-import { Router } from "express";
-// const { addUser } = require('../controllers/userController');
-import { 
-    addUser,
-    getAllUsers,
-    getUser,
-    updateUser,
-    deleteUser
-} from '../controllers/userController';
+const expresss = require('express');
+const userController = require('../controllers/userController');
 
-const router = Router();
+const router = expresss.Router();
 
-// routes.post("/users", async (req, res) =>
-// //   createUserFactory().handle(request, response)
-//     res.status(200).json('running')
-// );
-
-router.post('/user', addUser);
-router.get('/users', getAllUsers);
-router.get('/user/:id', getUser);
-router.put('/user/:id', updateUser);
-router.delete('/user/:id', deleteUser);
+router.post('/user', userController.addUser);
+router.get('/users', userController.getAllUsers);
+router.get('/user/:id', userController.getUser);
+router.put('/user/:id', userController.updateUser);
+router.delete('/user/:id', userController.deleteUser);
 
 module.exports = { routes: router };

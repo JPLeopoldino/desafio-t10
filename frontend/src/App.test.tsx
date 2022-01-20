@@ -15,6 +15,12 @@ describe("App Component", () => {
     expect(title).toBeInTheDocument();
   })
 
+  test("must contain the AppProvider", () => {
+    render(<App />);
+    const title = screen.getByText("src/App.tsx");
+    expect(title).toBeInTheDocument();
+  })
+
   test("must contain the image", () => {
     render(<App />);
     const image = screen.getByRole("img");

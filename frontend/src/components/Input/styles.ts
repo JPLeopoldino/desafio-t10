@@ -1,19 +1,17 @@
 import styled from 'styled-components';
+import colors from '../../styles/colors';
 
 export const Input = styled.input`
+    height: 3.5rem;
     width: 20rem;
-    border: 3px solid #FFF;
+    border: 2px solid #FFF;
     outline: none;
-    padding: 18px;
+    padding: 0 18px;
     border-radius: 3px;
 
     transition: border 0.2s ease;
 
     &:focus {
-        border: 3px solid #CC3363;
+        border: 2px solid ${colors.pink};
     }
-
-     /* {
-        border: 2.5px solid #CCC;
-    } */
 `;

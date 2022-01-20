@@ -1,55 +1,60 @@
 import React from 'react';
-// import { RadialChart } from 'react-vis';
-import { PieSeries, Legend, Chart as CustomChart } from '@devexpress/dx-react-chart-bootstrap4';
-import { Animation } from "@devexpress/dx-react-chart";
-import { IUserProps } from '../../hooks/user';
+import { Pie } from '@ant-design/plots';
 import * as SC from './styles';
 
+import { IUserProps } from '../../hooks/user';
+
 interface ChartProps {
-    data: IUserProps[];
+  data?: IUserProps[];
 }
 
-export default function Chart ({
-    data
-}: ChartProps) {
-
-    const labelComponent = (props: any) => {
-        const item = data.find(item => `${item.firstName} ${item.lastName}` === props.text);
-        
-        return <Legend.Label {...props} text={`${props.text} ${item?.participation}%`} />;
-    };
-
+const Chart: React.FC<ChartProps> = ({ data }) => {
     return (
         <SC.Container>
-            {/* <RadialChart
-                data={data.map(i => {return({angle: i.angle, color: i.color})})}
-                // data={[
-                //     {angle: 486.5, color: randomColor()},
-                //     {angle: 501.5, color: randomColor()},
-                //     {angle: 139.3, color: randomColor()},
-                //     {angle: 162, color: randomColor()},
-                //     {angle: 263.7, color: randomColor()},
-                //   ]}
-                colorType="literal"
-                labelsAboveChildren={true}
-                // animation={{damping: 20, stiffness: 300}}
-                radius={140}
-                // innerRadius={100}
-                showLabels={true}
-                width={300}
-                height={300}
-            /> */}
-            <CustomChart
-                data={data.map(i => {return({angle: i.angle, label: `${i.firstName} ${i.lastName}`})})}
-            >
-                <PieSeries
-                    valueField="angle"
-                    argumentField="label"
-                    innerRadius={0.6}
-                />
-                <Legend labelComponent={labelComponent}/>
-                <Animation/>
-            </CustomChart>
+            {
+              data ? (
+              <Pie
+                data={
+                  data.map(i => {
+                    return({
+                      value: i.participation,
+                      type: `${i.firstName} ${i.lastName}`
+                    })
+                  })
+                }
+                appendPadding={10}
+                autoFit={false}
+                angleField='value'
+                colorField='type'
+                radius={1}
+                innerRadius={0.5}
+                legend={{
+                  position: 'right',
+                  marker: {
+                    symbol: "square",
+                  },
+                }}
+                label={false}
+                interactions={[
+                  {
+                    type: 'legend-active',
+                  },
+                  {
+                    type: 'element-active',
+                  },
+                  {
+                    type: 'legend-highlight',
+                  }
+                ]}
+                statistic={{
+                  title: false,
+                  content: false
+                }}
+              />
+              ) : null
+            }
         </SC.Container>
     );
 }
+
+export default Chart;

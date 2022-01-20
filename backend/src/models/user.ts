@@ -1,12 +1,12 @@
 'use strict';
 
-class User {
-    id: number;
+class Users {
+    id: string;
     firstName: string;
     lastName: string;
     participation: number;
 
-    constructor(id: number, firstName: string, lastName: string, participation: number) {
+    constructor(id: string, firstName: string, lastName: string, participation: number) {
         this.id = id,
         this.firstName = firstName,
         this.lastName = lastName,
@@ -14,4 +14,4 @@ class User {
     }
 }
 
-export { User };
+module.exports = Users;
